@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="TRACE_LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.home}/logs/tracelogger/trace.log</file>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${user.home}/logs/tracelogger/trace.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>3</maxHistory>
+            <maxFileSize>200MB</maxFileSize>
+            <totalSizeCap>8GB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="tracelogger" additivity="false" level="INFO">
+        <appender-ref ref="TRACE_LOGGER"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="TRACE_LOGGER"/>
+    </root>
+</configuration>

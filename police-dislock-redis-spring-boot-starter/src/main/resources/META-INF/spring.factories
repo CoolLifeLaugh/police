@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.lhsj.police.dislock.redis.configuration.DislockRedisConfiguration
