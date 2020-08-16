@@ -24,6 +24,14 @@ public class ResponsesController {
         return responsesService.simple();
     }
 
+    @Responses()
+    @ResponseBody
+    @RequestMapping(value = "/noReturn", method = RequestMethod.GET)
+    public void noReturn() {
+        responsesService.noReturn();
+    }
+
+
     @Responses(handleIfError = true)
     @ResponseBody
     @RequestMapping(value = "/simple/exception", method = RequestMethod.GET)

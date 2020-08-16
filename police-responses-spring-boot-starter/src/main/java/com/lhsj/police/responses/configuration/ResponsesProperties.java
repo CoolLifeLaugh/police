@@ -6,10 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ResponsesProperties {
     private String  enable;
     /**
-     * 自定义处理器
-     */
-    private String  handler;
-    /**
      * 增强链的排序属性
      * 值越大，执行优先级越高
      */
@@ -31,11 +27,4 @@ public class ResponsesProperties {
         this.order = order;
     }
 
-    public String getHandler() {
-        return handler;
-    }
-
-    public void setHandler(String handler) {
-        this.handler = handler;
-    }
 }

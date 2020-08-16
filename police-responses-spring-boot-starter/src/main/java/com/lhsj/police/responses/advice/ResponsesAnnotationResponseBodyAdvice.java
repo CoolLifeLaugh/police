@@ -3,7 +3,6 @@ package com.lhsj.police.responses.advice;
 import com.lhsj.police.core.exception.AbstractCodeException;
 import com.lhsj.police.core.response.Response;
 import com.lhsj.police.responses.annotation.Responses;
-import com.lhsj.police.responses.configuration.ResponsesProperties;
 import com.lhsj.police.responses.handler.ResponseHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.AbstractMappingJacksonResponseBodyAdvice;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -40,9 +38,7 @@ import static java.util.Optional.ofNullable;
 public class ResponsesAnnotationResponseBodyAdvice extends AbstractMappingJacksonResponseBodyAdvice implements BeanFactoryAware {
 
     @Resource
-    private ResponsesProperties properties;
-    @Resource
-    private BeanFactory         beanFactory;
+    private BeanFactory beanFactory;
 
     @Override
     public boolean supports(@NonNull MethodParameter returnType,
@@ -134,7 +130,4 @@ public class ResponsesAnnotationResponseBodyAdvice extends AbstractMappingJackso
         this.beanFactory = beanFactory;
     }
 
-    public void setProperties(ResponsesProperties properties) {
-        this.properties = properties;
-    }
 }

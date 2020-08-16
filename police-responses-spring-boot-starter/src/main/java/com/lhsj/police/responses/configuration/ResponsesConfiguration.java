@@ -33,7 +33,6 @@ public class ResponsesConfiguration implements BeanFactoryAware, WebMvcConfigure
     public ResponsesAnnotationResponseBodyAdvice responsesAnnotationResponseBodyAdvice() {
         ResponsesAnnotationResponseBodyAdvice advice = new ResponsesAnnotationResponseBodyAdvice();
         advice.setBeanFactory(beanFactory);
-        advice.setProperties(properties);
         return advice;
     }
 

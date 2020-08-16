@@ -10,10 +10,15 @@ public class ResponsesService {
         return true;
     }
 
+    public void noReturn() {
+    }
+
     public Person exception() {
         if (true) {
             throw new RuntimeException("mock");
         }
         return new Person();
     }
+
+
 }
