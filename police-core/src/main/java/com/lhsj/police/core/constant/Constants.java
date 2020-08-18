@@ -1,6 +1,9 @@
 package com.lhsj.police.core.constant;
 
+import com.google.common.collect.Lists;
+
 import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * org.springframework.http.HttpStatus
@@ -39,6 +42,10 @@ public class Constants {
 
     public static final String GET = "get";
     public static final String SET = "set";
+
+    // NETWORK
+
+    public static final List<String> LOCALHOSTS = Lists.newArrayList("127.0.0.1", "localhost");
 
     // ------------ JVM相关常量 ------------
 

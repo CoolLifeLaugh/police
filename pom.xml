@@ -32,6 +32,7 @@
         <lombok.version>1.18.4</lombok.version>
         <dozer.version>5.5.1</dozer.version>
         <vavr.version>0.9.2</vavr.version>
+        <groovy.version>2.1.7</groovy.version>
     </properties>
 
     <modules>
@@ -54,8 +55,10 @@
         <module>police-responses-spring-boot-starter-test</module>
         <module>police-script</module>
         <module>police-script-spring-boot-starter</module>
+        <module>police-script-spring-boot-starter-test</module>
         <module>police-trace</module>
         <module>police-trace-spring-boot-starter</module>
+        <module>police-trace-spring-boot-starter-test</module>
     </modules>
 
     <dependencyManagement>
@@ -169,6 +172,11 @@
                 <artifactId>police-script-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.lhsj</groupId>
+                <artifactId>police-script-spring-boot-starter-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.lhsj</groupId>
@@ -178,6 +186,11 @@
             <dependency>
                 <groupId>com.lhsj</groupId>
                 <artifactId>police-trace-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lhsj</groupId>
+                <artifactId>police-trace-spring-boot-starter-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -295,6 +308,14 @@
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
                 <version>1.2</version>
+            </dependency>
+
+            <!-- optional for groovy engine -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>${groovy.version}</version>
+                <optional>true</optional>
             </dependency>
 
             <!-- optional for BeanMapper -->
