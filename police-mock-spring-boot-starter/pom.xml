@@ -41,6 +41,10 @@
             <artifactId>spring-boot-starter-aop</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.lhsj</groupId>
+            <artifactId>police-aspect</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

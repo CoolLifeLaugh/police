@@ -25,6 +25,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static com.lhsj.police.aspect.invocation.ReInvocations.getTargetMethod;
 import static com.lhsj.police.core.base.Validate.isTrue;
 import static com.lhsj.police.core.io.ReFiles.isFileExists;
 import static com.lhsj.police.core.json.ReJsons.obj2String;
@@ -47,7 +48,11 @@ public class MockAnnotationInterceptor implements MethodInterceptor, BeanFactory
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         try {
-            final Method method = invocation.getMethod();
+            final Method method = getTargetMethod(invocation);
+            if (isNull(method)) {
+                return invocation.proceed();
+            }
+
             Class<?> returnType = method.getReturnType();
             if (returnType.getCanonicalName().equals("void")) {
                 return null;
