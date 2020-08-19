@@ -13,8 +13,9 @@ public class Constants {
     // 此处描述全局通用的常量
 
     public static final String COMMA        = ",";
-    public static final String COLON        = ":";
+    public static final String EQUAL        = "=";
     public static final String DOLLAR       = "$";
+    public static final String COLON        = ":";
     public static final String DOUDLE_COLON = "::";
     public static final String UNDERLINE    = "_";
     public static final String TRUE         = "true";

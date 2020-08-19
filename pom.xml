@@ -50,6 +50,7 @@
         <module>police-exceptions-spring-boot-starter-test</module>
         <module>police-mock</module>
         <module>police-mock-spring-boot-starter</module>
+        <module>police-mock-spring-boot-starter-test</module>
         <module>police-responses</module>
         <module>police-responses-spring-boot-starter</module>
         <module>police-responses-spring-boot-starter-test</module>
@@ -143,6 +144,11 @@
             <dependency>
                 <groupId>com.lhsj</groupId>
                 <artifactId>police-mock-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lhsj</groupId>
+                <artifactId>police-mock-spring-boot-starter-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
