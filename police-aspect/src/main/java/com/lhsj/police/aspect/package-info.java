@@ -1,4 +1,4 @@
-package com.lhsj.police.aspectj;
+package com.lhsj.police.aspect;
 
 /*
  * spring aspectj tool

@@ -5,7 +5,7 @@ import com.lhsj.police.mock.controller.MockController;
 
 import java.util.List;
 
-import static com.lhsj.police.aspectj.expression.ReAopPoints.getMatchMethod;
+import static com.lhsj.police.aspect.point.ReAopPoints.getMatchMethod;
 
 public final class AspectJExpressionsApp {
 
