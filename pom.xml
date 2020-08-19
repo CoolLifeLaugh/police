@@ -37,6 +37,7 @@
 
     <modules>
         <module>police-core</module>
+        <module>police-aspect</module>
         <module>police-web</module>
         <module>police-expression</module>
         <module>police-dingding</module>
@@ -75,6 +76,11 @@
             <dependency>
                 <groupId>com.lhsj</groupId>
                 <artifactId>police-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lhsj</groupId>
+                <artifactId>police-aspect</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

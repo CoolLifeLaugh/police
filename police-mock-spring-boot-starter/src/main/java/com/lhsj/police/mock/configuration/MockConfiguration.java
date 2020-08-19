@@ -19,7 +19,7 @@ public class MockConfiguration {
     @Bean
     @ConditionalOnProperty(name = "police.mock.enable", havingValue = "true")
     public MockAnnotationAdvisor mockAnnotationAdvisor() {
-        MockAnnotationAdvisor advisor = new MockAnnotationAdvisor(new MockAnnotationInterceptor(properties), properties);
+        MockAnnotationAdvisor advisor = new MockAnnotationAdvisor(new MockAnnotationInterceptor(properties));
         advisor.setOrder(properties.getOrder());
         return advisor;
     }

@@ -18,6 +18,11 @@
     <dependencies>
         <dependency>
             <groupId>com.lhsj</groupId>
+            <artifactId>police-aspect</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.lhsj</groupId>
             <artifactId>police-mock-spring-boot-starter</artifactId>
             <scope>compile</scope>
         </dependency>

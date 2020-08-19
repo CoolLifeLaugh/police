@@ -1,10 +1,11 @@
 package com.lhsj.police.mock.aop;
 
-import com.lhsj.police.mock.configuration.MockProperties;
+import com.lhsj.police.mock.annotation.Mock;
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.Pointcut;
-import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
+import org.springframework.aop.support.ComposablePointcut;
+import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -13,21 +14,20 @@ import org.springframework.lang.NonNull;
 import static java.util.Objects.isNull;
 
 public class MockAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
-    private Advice         advice;
-    private Pointcut       pointcut;
-    private MockProperties mockProperties;
+    private Advice   advice;
+    private Pointcut pointcut;
 
-    public MockAnnotationAdvisor(MockAnnotationInterceptor advice, MockProperties mockProperties) {
+    public MockAnnotationAdvisor(MockAnnotationInterceptor advice) {
         this.advice = advice;
-        this.mockProperties = mockProperties;
     }
 
     @Override
     @NonNull
     public Pointcut getPointcut() {
         if (isNull(pointcut)) {
-            pointcut = new AspectJExpressionPointcut();
-            ((AspectJExpressionPointcut) pointcut).setExpression(mockProperties.getExpression());
+            Pointcut cpc = new AnnotationMatchingPointcut(Mock.class, true);
+            Pointcut mpc = AnnotationMatchingPointcut.forMethodAnnotation(Mock.class);
+            pointcut = new ComposablePointcut(cpc).union(mpc);
         }
         return pointcut;
     }
