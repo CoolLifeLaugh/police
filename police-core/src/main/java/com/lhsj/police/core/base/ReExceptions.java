@@ -17,6 +17,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+
 /**
  * 关于异常的工具类.
  * <p>
@@ -228,7 +230,7 @@ public class ReExceptions {
      * @param num 前几行
      */
     public static String simpleTraceText(@NotNull Throwable t, int num) {
-        if (t == null || num <= 0) {
+        if (isNull(t) || num <= 0) {
             return StringUtils.EMPTY;
         }
 
@@ -238,16 +240,17 @@ public class ReExceptions {
             return StringUtils.EMPTY;
         }
 
-        Function<StackTraceElement, String> mapFunc = element ->
-                "at " + element.getClassName() + "." +
-                        element.getMethodName() + "(" +
-                        element.getFileName() + ":" +
-                        element.getLineNumber() + ")";
-
         return Arrays.stream(stackTraceElements)
                 .limit(Math.min(num, stackTraceElements.length))
                 .filter(Objects::nonNull)
-                .map(mapFunc)
+                .map(STACK_TRACE_MAPPER)
                 .collect(Collectors.joining(";", t.toString() + " ", ""));
     }
+
+    private static final Function<StackTraceElement, String> STACK_TRACE_MAPPER = element ->
+            "at " + element.getClassName() + "." +
+                    element.getMethodName() + "(" +
+                    element.getFileName() + ":" +
+                    element.getLineNumber() + ")";
+
 }
