@@ -1,12 +1,10 @@
-[钉钉机器人官方文档](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)
-
-
-
-# 消息类型及数据格式
+# 钉钉消息类型及数据格式
 
 ## text类型
 
-```
+### 数据格式
+
+```json
 {
     "msgtype": "text", 
     "text": {
@@ -29,10 +27,39 @@
 | atMobiles | Array        | 否       | 被@人的手机号（在content里添加@人的手机号） |
 | isAtAll   | Boolean      | 否       | 是否@所有人                                 |
 
+### 使用方法
+
+```java
+// 方式 1
+String webhook = "https://oapi.dingtalk.com/robot/send?access_token=xxxx";
+String content = "test hha ";
+DingDings.sendText(webhook, content);
+
+// 方式 2
+String webhook = "https://oapi.dingtalk.com/robot/send?access_token=xxxx";
+String content = "test hha ";
+List<String> atMobiles = Lists.newArrayList("123xxxxx", "123yyyyyy");
+boolean atAll = true;
+DingDings.sendText(webhook, content, atMobiles, atAll);
+
+// 方式 3
+String webhook = "https://oapi.dingtalk.com/robot/send?access_token=xxxx";
+String content = "test hha ";
+List<String> atMobiles = Lists.newArrayList("123xxxxx", "123yyyyyy");
+boolean atAll = true;
+
+DingTextRequest request = DingTextRequest.of()
+                    .content(content)
+                    .atMobiles(atMobiles)
+                    .atAll(atAll);
+
+DingDings.sendText(webhook, request);
+```
+
 
 ## link类型
 
-```
+```json
 {
     "msgtype": "link", 
     "link": {
@@ -55,7 +82,7 @@
 
 ## markdown类型
 
-```
+```json
 {
      "msgtype": "markdown",
      "markdown": {
@@ -81,13 +108,11 @@
 
 ## 整体跳转ActionCard类型
 
-```
+```json
 {
     "actionCard": {
         "title": "乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身", 
-        "text": "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) 
- ### 乔布斯 20 年前想打造的苹果咖啡厅 
- Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划", 
+        "text": "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) ### 乔布斯 20 年前想打造的苹果咖啡厅 Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划", 
         "btnOrientation": "0", 
         "singleTitle" : "阅读全文",
         "singleURL" : "https://www.dingtalk.com/"
@@ -108,13 +133,11 @@
 
 ## 独立跳转ActionCard类型
 
-```
+```json
 {
     "actionCard": {
         "title": "乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身", 
-        "text": "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) 
- ### 乔布斯 20 年前想打造的苹果咖啡厅 
- Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划", 
+        "text": "![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png) ### 乔布斯 20 年前想打造的苹果咖啡厅 Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划", 
         "btnOrientation": "0", 
         "btns": [
             {
@@ -144,7 +167,7 @@
 
 ## FeedCard类型
 
-```
+```json
 {
     "feedCard": {
         "links": [
@@ -174,4 +197,6 @@
 
 
 
+# 参考
 
+[钉钉机器人官方文档](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)

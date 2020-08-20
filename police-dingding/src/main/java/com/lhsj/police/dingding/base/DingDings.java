@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.lhsj.police.core.net.RestClient.IGNORE_CALLBACK;
 
+@SuppressWarnings("unused")
 public final class DingDings {
 
     private static void send(String webhook, AbstractDingRequest request) {
