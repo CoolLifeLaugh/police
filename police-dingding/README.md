@@ -204,8 +204,8 @@ DingDings.sendSingleActionCard(webhook, request);
 | title          | String   | 是       | 首屏会话透出的展示内容         |
 | text           | String   | 是       | markdown格式的消息             |
 | btns           | Array    | 是       | 按钮                           |
-| └title         | String   | 是       | 按钮标题                       |
-| └actionURL     | String   | 是       | 点击按钮触发的URL              |
+| title          | String   | 是       | 按钮标题                       |
+| actionURL      | String   | 是       | 点击按钮触发的URL              |
 | btnOrientation | String   | 否       | 0-按钮竖直排列，1-按钮横向排列 |
 
 ### 使用方法
