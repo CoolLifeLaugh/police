@@ -7,7 +7,6 @@ import static com.lhsj.police.core.constant.Constants.EQUAL;
 @ConfigurationProperties(prefix = "police.mock")
 public class MockProperties {
     private String  enable;
-    private String  expression;
     /**
      * 分隔符：分隔符左边是key，右边是mock的数据
      */
@@ -24,14 +23,6 @@ public class MockProperties {
 
     public void setEnable(String enable) {
         this.enable = enable;
-    }
-
-    public String getExpression() {
-        return expression;
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
     }
 
     public Integer getOrder() {
