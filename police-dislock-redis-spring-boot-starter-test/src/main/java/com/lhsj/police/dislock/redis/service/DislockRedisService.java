@@ -19,7 +19,7 @@ public class DislockRedisService implements InitializingBean {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    @Dislock(key = "'key_'.concat(#key)")
+    @Dislock(key = "#root.methodName + '_key_' + #key")
     public boolean simple(String key) {
         if (!ofNullable(stringRedisTemplate.hasKey(key)).orElse(false)) {
             stringRedisTemplate.opsForValue().set(key, String.valueOf(0));

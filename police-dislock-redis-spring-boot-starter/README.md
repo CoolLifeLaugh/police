@@ -21,7 +21,7 @@
 ```properties
 # dislock
 police.dislock.redis.enable=true
-## 存储在redis的数据的失效时间，单位毫秒，默认是60000，即60s
+## 分布式锁组件，存储在redis的数据的失效时间，单位毫秒，默认是60000，即60s
 police.dislock.redis.expire-after=10000
 ```
 
@@ -37,4 +37,4 @@ public boolean simple(String key) {
 }
 ```
 
-key:使用的是Spring的SPEL表达式。
+key:使用的是Spring的SPEL表达式，用法和spring cache的@Cacheable.key一样，[链接](https://docs.spring.io/spring/docs/4.3.10.RELEASE/spring-framework-reference/html/cache.html#cache-annotations-cacheable-key)
