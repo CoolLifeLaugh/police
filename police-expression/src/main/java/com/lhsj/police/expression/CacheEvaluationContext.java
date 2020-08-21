@@ -3,6 +3,7 @@ package com.lhsj.police.expression;
 
 import org.springframework.context.expression.MethodBasedEvaluationContext;
 import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.lang.NonNull;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -55,7 +56,7 @@ public class CacheEvaluationContext extends MethodBasedEvaluationContext {
      * Load the param information only when needed.
      */
     @Override
-    public Object lookupVariable(String name) {
+    public Object lookupVariable(@NonNull String name) {
         if (this.unavailableVariables.contains(name)) {
             throw new VariableNotAvailableException(name);
         }

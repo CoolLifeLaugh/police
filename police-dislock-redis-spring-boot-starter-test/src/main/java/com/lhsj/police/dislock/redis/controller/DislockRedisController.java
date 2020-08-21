@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
 @RestController
@@ -18,23 +19,23 @@ public class DislockRedisController {
     @Resource
     private DislockRedisService dislockRedisService;
 
+    IntConsumer consumer = e -> {
+        TraceLog log = Traces.start().type("dislock_simple");
+        try {
+            log.key("key={}", e);
+            dislockRedisService.simple("simple");
+            log.success();
+        } catch (Throwable ex) {
+            log.fail();
+        } finally {
+            log.log();
+        }
+    };
+
     @ResponseBody
     @RequestMapping(value = "/simple", method = RequestMethod.GET)
     public boolean simple() {
-        IntStream.range(0, 100000)
-                .parallel()
-                .forEach(e -> {
-                    TraceLog log = Traces.start().type("dislock_simple");
-                    try {
-                        log.key("key={}", e);
-                        dislockRedisService.simple("simple");
-                        log.success();
-                    } catch (Throwable ex) {
-                        log.fail();
-                    } finally {
-                        log.log();
-                    }
-                });
+        IntStream.range(0, 100000).parallel().forEach(consumer);
         return true;
     }
 
