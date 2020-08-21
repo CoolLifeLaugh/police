@@ -22,12 +22,12 @@ public @interface Responses {
     boolean rapper() default true;
 
     /**
-     * 成功时处理
+     * 扩展：成功时，调用handler处理
      */
     boolean handleIfSuccess() default false;
 
     /**
-     * 异常时处理
+     * 扩展：异常时，调用handler处理
      */
     boolean handleIfError() default false;
 
