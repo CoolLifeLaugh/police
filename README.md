@@ -2,7 +2,7 @@
 
 
 | 模块 | 说明 | 链接 |
-| :--: | :--: | :--: |
+| :-- | :-- | :--: |
 | police-aspect | 切面工具 | [用户文档](./police-aspect/README.md) |
 | police-core | 基础工具 | [用户文档](./police-core/README.md) |
 | police-expression | SPEL表达式解析工具 | [用户文档](./police-expression/README.md) |

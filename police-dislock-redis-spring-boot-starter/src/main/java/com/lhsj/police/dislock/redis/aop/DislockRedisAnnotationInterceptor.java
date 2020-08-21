@@ -1,7 +1,6 @@
 package com.lhsj.police.dislock.redis.aop;
 
 import com.google.common.collect.Lists;
-import com.lhsj.police.core.base.ReValidates;
 import com.lhsj.police.core.naming.AbstractName;
 import com.lhsj.police.dislock.annotation.Dislock;
 import com.lhsj.police.dislock.enums.LockType;
@@ -21,6 +20,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 
+import static com.lhsj.police.core.base.ReValidates.isTrue;
 import static java.util.Objects.nonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.apache.commons.lang3.ObjectUtils.allNotNull;
@@ -43,17 +43,21 @@ public class DislockRedisAnnotationInterceptor extends AbstractName implements M
         try {
             Dislock dislock = invocation.getMethod().getAnnotation(Dislock.class);
 
+            // 解析加锁的key
             String lockKey = createKey(invocation, dislock);
-            ReValidates.isTrue(isNotBlank(dislock.key()), "dislock key blank");
+            isTrue(isNotBlank(dislock.key()), "dislock key blank");
 
+            // 获取分布式锁
             lock = redisLockRegistry.obtain(lockKey);
-            ReValidates.isTrue(nonNull(lock), "lock obtain null, lockKey is " + lockKey);
+            isTrue(nonNull(lock), "lock obtain null, lockKey is " + lockKey);
 
+            // 加锁
             result = lockIfNeeded(lock, dislock);
-            ReValidates.isTrue(result.getSuccess(), "lock fail, lockKey is " + lockKey);
+            isTrue(result.getSuccess(), "lock fail, lockKey is " + lockKey);
 
             return invocation.proceed();
         } finally {
+            // 释放锁
             unlockIfNeeded(lock, result);
         }
     }
@@ -110,6 +114,6 @@ public class DislockRedisAnnotationInterceptor extends AbstractName implements M
     @Override
     public void setBeanFactory(@NonNull BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
-        this.redisLockRegistry = (RedisLockRegistry) beanFactory.getBean("redisLockRegistry");
+        this.redisLockRegistry = (RedisLockRegistry) beanFactory.getBean("policeRedisLockRegistry");
     }
 }
