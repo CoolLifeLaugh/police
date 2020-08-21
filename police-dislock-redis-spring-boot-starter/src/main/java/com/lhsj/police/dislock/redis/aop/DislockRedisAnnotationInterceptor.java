@@ -1,6 +1,5 @@
 package com.lhsj.police.dislock.redis.aop;
 
-import com.google.common.collect.Lists;
 import com.lhsj.police.core.naming.AbstractName;
 import com.lhsj.police.dislock.annotation.Dislock;
 import com.lhsj.police.dislock.enums.LockType;
@@ -104,7 +103,7 @@ public class DislockRedisAnnotationInterceptor extends AbstractName implements M
         Object target = invocation.getThis();
         Class<?> targetClass = invocation.getThis().getClass();
 
-        EvaluationContext context = evaluator.createEvaluationContext(Lists.newArrayList(), method, args, target, targetClass, beanFactory);
+        EvaluationContext context = evaluator.createEvaluationContext(method, args, target, targetClass, beanFactory);
 
         AnnotatedElementKey methodCacheKey = new AnnotatedElementKey(method, targetClass);
 

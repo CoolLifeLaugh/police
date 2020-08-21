@@ -6,7 +6,6 @@ import org.springframework.context.expression.AnnotatedElementKey;
 import org.springframework.expression.EvaluationContext;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 public class ExpressionApp {
 
@@ -18,7 +17,7 @@ public class ExpressionApp {
         Object[] args = invocation.getArguments();
         Object target = invocation.getThis();
         Class<?> targetClass = invocation.getThis().getClass();
-        EvaluationContext context = evaluator.createEvaluationContext(new ArrayList<>(), method, args, target, targetClass, beanFactory);
+        EvaluationContext context = evaluator.createEvaluationContext(method, args, target, targetClass, beanFactory);
         AnnotatedElementKey methodCacheKey = new AnnotatedElementKey(method, targetClass);
 
         return (String) evaluator.key(template, methodCacheKey, context);

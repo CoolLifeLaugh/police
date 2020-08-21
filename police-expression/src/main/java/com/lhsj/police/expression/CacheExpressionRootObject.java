@@ -1,11 +1,9 @@
 package com.lhsj.police.expression;
 
 
-import org.springframework.cache.Cache;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 
 /**
  * Class describing the root object used during the expression evaluation.
@@ -17,8 +15,6 @@ import java.util.Collection;
 @SuppressWarnings("unused")
 public class CacheExpressionRootObject {
 
-    private final Collection<? extends Cache> caches;
-
     private final Method method;
 
     private final Object[] args;
@@ -28,8 +24,7 @@ public class CacheExpressionRootObject {
     private final Class<?> targetClass;
 
 
-    public CacheExpressionRootObject(
-            Collection<? extends Cache> caches, Method method, Object[] args, Object target, Class<?> targetClass) {
+    public CacheExpressionRootObject(Method method, Object[] args, Object target, Class<?> targetClass) {
 
         Assert.notNull(method, "Method is required");
         Assert.notNull(targetClass, "targetClass is required");
@@ -37,12 +32,6 @@ public class CacheExpressionRootObject {
         this.target = target;
         this.targetClass = targetClass;
         this.args = args;
-        this.caches = caches;
-    }
-
-
-    public Collection<? extends Cache> getCaches() {
-        return this.caches;
     }
 
     public Method getMethod() {

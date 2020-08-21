@@ -3,7 +3,6 @@ package com.lhsj.police.expression;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.cache.Cache;
 import org.springframework.context.expression.AnnotatedElementKey;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.context.expression.CachedExpressionEvaluator;
@@ -11,7 +10,6 @@ import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -59,18 +57,15 @@ public class CacheOperationExpressionEvaluator extends CachedExpressionEvaluator
     /**
      * Create an {@link EvaluationContext} without a return value.
      *
-     * @see #createEvaluationContext(Collection, Method, Object[], Object, Class, Object, BeanFactory)
+     * @see #createEvaluationContext(Method, Object[], Object, Class, Object, BeanFactory)
      */
-    public EvaluationContext createEvaluationContext(Collection<? extends Cache> caches,
-                                                     Method method, Object[] args, Object target, Class<?> targetClass, BeanFactory beanFactory) {
-
-        return createEvaluationContext(caches, method, args, target, targetClass, NO_RESULT, beanFactory);
+    public EvaluationContext createEvaluationContext(Method method, Object[] args, Object target, Class<?> targetClass, BeanFactory beanFactory) {
+        return createEvaluationContext(method, args, target, targetClass, NO_RESULT, beanFactory);
     }
 
     /**
      * Create an {@link EvaluationContext}.
      *
-     * @param caches      the current caches
      * @param method      the method
      * @param args        the method arguments
      * @param target      the target object
@@ -79,12 +74,14 @@ public class CacheOperationExpressionEvaluator extends CachedExpressionEvaluator
      *                    {@link #NO_RESULT} if there is no return at this time
      * @return the evaluation context
      */
-    public EvaluationContext createEvaluationContext(Collection<? extends Cache> caches,
-                                                     Method method, Object[] args, Object target, Class<?> targetClass, Object result,
+    public EvaluationContext createEvaluationContext(Method method,
+                                                     Object[] args,
+                                                     Object target,
+                                                     Class<?> targetClass,
+                                                     Object result,
                                                      BeanFactory beanFactory) {
 
-        CacheExpressionRootObject rootObject = new CacheExpressionRootObject(
-                caches, method, args, target, targetClass);
+        CacheExpressionRootObject rootObject = new CacheExpressionRootObject(method, args, target, targetClass);
         Method targetMethod = getTargetMethod(targetClass, method);
         CacheEvaluationContext evaluationContext = new CacheEvaluationContext(
                 rootObject, targetMethod, args, getParameterNameDiscoverer());

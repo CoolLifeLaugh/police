@@ -1,6 +1,5 @@
 package com.lhsj.police.mock.aop;
 
-import com.google.common.collect.Lists;
 import com.lhsj.police.core.json.ReJsons;
 import com.lhsj.police.core.log.ReLogs;
 import com.lhsj.police.core.net.RestClient;
@@ -117,7 +116,7 @@ public class MockAnnotationInterceptor implements MethodInterceptor, BeanFactory
             Object[] args = invocation.getArguments();
             Object target = invocation.getThis();
             Class<?> targetClass = invocation.getThis().getClass();
-            EvaluationContext context = evaluator.createEvaluationContext(Lists.newArrayList(), method, args, target, targetClass, beanFactory);
+            EvaluationContext context = evaluator.createEvaluationContext(method, args, target, targetClass, beanFactory);
             AnnotatedElementKey methodCacheKey = new AnnotatedElementKey(method, targetClass);
 
             return (String) evaluator.key(expression, methodCacheKey, context);
