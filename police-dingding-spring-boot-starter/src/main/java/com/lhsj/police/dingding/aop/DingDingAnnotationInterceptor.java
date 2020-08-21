@@ -115,7 +115,7 @@ public class DingDingAnnotationInterceptor extends AbstractName implements Metho
             sb.append("keyword: ").append(annotation.keyword()).append("\r");
         }
 
-        sb.append("date: ").append(ReDateFormats.formatDateTime(new Date())).append("\r");
+        sb.append("date: ").append(ReDateFormats.formatDateTimeMillis(new Date())).append("\r");
         sb.append("ip: ").append(ReNets.getLocalAddress().getHostAddress()).append("\r");
 
         String traceId = getTraceId(annotation);
