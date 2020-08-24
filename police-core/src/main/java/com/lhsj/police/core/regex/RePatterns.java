@@ -129,7 +129,7 @@ public final class RePatterns {
      */
     public final static Pattern PATTERN_CHINESE_TELEPHONE = Pattern.compile("\\d{3}-\\d{8}|\\d{4}-\\d{7}");
     /**
-     * 常用正则表达式：匹配身份证号
+     * 常用正则表达式：简单匹配身份证号，如果要严格验证，使用ReIdCards
      */
     public final static Pattern PATTERN_CREDIT_ID         = Pattern.compile("^((\\d{18})|([0-9x]{18})|([0-9X]{18}))$");
     /**
