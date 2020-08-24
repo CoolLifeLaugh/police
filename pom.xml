@@ -40,6 +40,8 @@
         <module>police-aspect</module>
         <module>police-web</module>
         <module>police-expression</module>
+        <module>police-application-context-spring-boot-starter</module>
+        <module>police-application-context-spring-boot-starter-test</module>
         <module>police-dingding</module>
         <module>police-dingding-spring-boot-starter</module>
         <module>police-dingding-spring-boot-starter-test</module>
@@ -91,6 +93,17 @@
             <dependency>
                 <groupId>com.lhsj</groupId>
                 <artifactId>police-expression</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lhsj</groupId>
+                <artifactId>police-application-context-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lhsj</groupId>
+                <artifactId>police-application-context-spring-boot-starter-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
