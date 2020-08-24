@@ -13,7 +13,6 @@ public class ContextController {
     @ResponseBody
     @RequestMapping(value = "/simple", method = RequestMethod.GET)
     public String simple() {
-        ContextController controller =  ApplicationContextHolder.getBean("contextController");
         return ApplicationContextHolder.getContext().getId();
     }
 
