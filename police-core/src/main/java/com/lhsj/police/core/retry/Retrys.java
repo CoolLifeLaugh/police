@@ -15,6 +15,8 @@ import static com.lhsj.police.core.base.Validate.isTrue;
 
 /**
  * 简单重试工具
+ * <p>
+ * 如果使用功能丰富的重试工具，请使用spring-retry框架
  */
 @SuppressWarnings("unused")
 public final class Retrys {
@@ -121,6 +123,6 @@ public final class Retrys {
             logger.debug("Failed on try {}, retrying in {}ms.", nTry, sleepMillis);
         }
 
-        LockSupport.park(sleepMillis);
+        LockSupport.parkNanos(sleepMillis * 1_000_000L);
     }
 }
