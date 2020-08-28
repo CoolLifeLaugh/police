@@ -1,6 +1,6 @@
 package com.lhsj.police.core.net;
 
-import com.alibaba.fastjson.JSON;
+import com.lhsj.police.core.json.ReJsons;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -11,8 +11,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -23,9 +23,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("all")
 public class RestClient {
 
-    private static final Log log = LogFactory.getLog(RestClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestClient.class);
 
     private static OkHttpClient CLIENT;
 
@@ -87,7 +88,7 @@ public class RestClient {
                 .map(Response::body)
                 .map(bytesMapper)
                 .map(e -> new String(e, StandardCharsets.UTF_8))
-                .map(e -> JSON.parseObject(e, clazz))
+                .map(e -> ReJsons.string2Obj(e, clazz))
                 .orElse(null);
     }
 
@@ -95,7 +96,7 @@ public class RestClient {
         try {
             return e.bytes();
         } catch (IOException ioe) {
-            log.error("bytes error: ", ioe);
+            LOGGER.error("bytes error: ", ioe);
         }
         return null;
     };
@@ -126,7 +127,7 @@ public class RestClient {
         try {
             return parseResponse(call.execute(), clazz);
         } catch (Throwable e) {
-            log.error("RestClient get error: ", e);
+            LOGGER.error("RestClient get error: ", e);
         }
         return null;
     }
@@ -157,14 +158,14 @@ public class RestClient {
         try {
             call.enqueue(callback);
         } catch (Exception e) {
-            log.error("RestClient getAsync error: ", e);
+            LOGGER.error("RestClient getAsync error: ", e);
         }
     }
 
     // -------------------------------------- post json --------------------------------------------------
 
     public <T> T post(String url, Object body, Class<T> clazz) {
-        RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), JSON.toJSONString(body));
+        RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), ReJsons.obj2String(body));
         Request request = new Request.Builder()
                 .url(url)
                 .post(requestBody)
@@ -175,13 +176,13 @@ public class RestClient {
         try {
             return parseResponse(call.execute(), clazz);
         } catch (Exception e) {
-            log.error("RestClient post error: ", e);
+            LOGGER.error("RestClient post error: ", e);
         }
         return null;
     }
 
     public <T> T post(String url, Object body, Map<String, Object> headers, Class<T> clazz) {
-        RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), JSON.toJSONString(body));
+        RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), ReJsons.obj2String(body));
         Request request = new Request.Builder()
                 .url(url)
                 .headers(headers(headers))
@@ -193,7 +194,7 @@ public class RestClient {
         try {
             return parseResponse(call.execute(), clazz);
         } catch (Exception e) {
-            log.error("RestClient post error: ", e);
+            LOGGER.error("RestClient post error: ", e);
         }
         return null;
     }
@@ -205,7 +206,7 @@ public class RestClient {
     }
 
     public void postAsync(String url, Object body, Map<String, Object> headers, Callback callback) {
-        RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), JSON.toJSONString(body));
+        RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), ReJsons.obj2String(body));
         Request request = new Request.Builder()
                 .url(url)
                 .headers(headers(headers))
@@ -217,7 +218,7 @@ public class RestClient {
         try {
             call.enqueue(callback);
         } catch (Exception e) {
-            log.error("RestClient postAsync error: ", e);
+            LOGGER.error("RestClient postAsync error: ", e);
         }
     }
 
@@ -239,7 +240,7 @@ public class RestClient {
         try {
             return parseResponse(call.execute(), clazz);
         } catch (Exception e) {
-            log.error("RestClient post error: ", e);
+            LOGGER.error("RestClient post error: ", e);
         }
         return null;
     }
@@ -262,7 +263,7 @@ public class RestClient {
         try {
             call.enqueue(callback);
         } catch (Exception e) {
-            log.error("RestClient postAsync error: ", e);
+            LOGGER.error("RestClient postAsync error: ", e);
         }
     }
 

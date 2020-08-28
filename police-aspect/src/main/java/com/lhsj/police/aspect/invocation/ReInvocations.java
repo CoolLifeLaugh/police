@@ -1,5 +1,6 @@
 package com.lhsj.police.aspect.invocation;
 
+import com.lhsj.police.core.base.ReExceptions;
 import org.aopalliance.intercept.Joinpoint;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.support.AopUtils;
@@ -42,5 +43,15 @@ public final class ReInvocations {
                 .map(ReInvocations::getTargetMethod)
                 .map(mapper)
                 .orElse(null);
+    }
+
+    public static Object proceedUnchecked(MethodInvocation invocation) {
+        try {
+            return invocation.proceed();
+        } catch (Throwable ex) {
+            ReExceptions.unchecked(ex);
+        }
+
+        throw new UnsupportedOperationException("wont do this in theory");
     }
 }

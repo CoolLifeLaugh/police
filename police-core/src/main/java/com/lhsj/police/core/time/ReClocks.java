@@ -1,5 +1,7 @@
 package com.lhsj.police.core.time;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.Date;
 
 /**
@@ -16,6 +18,10 @@ public class ReClocks {
      */
     public static long elapsedTime(long beginTime) {
         return currentTimeMillis() - beginTime;
+    }
+
+    public static synchronized CpuTimeClock useCpuTimeClock() {
+        return new CpuTimeClock();
     }
 
     /**
@@ -106,6 +112,28 @@ public class ReClocks {
         @Override
         public long nanoTime() {
             return System.nanoTime();
+        }
+    }
+
+    /**
+     * A clock implementation which returns the current thread's CPU time.
+     */
+    public static class CpuTimeClock implements Clock {
+        private static final ThreadMXBean THREAD_MX_BEAN = ManagementFactory.getThreadMXBean();
+
+        @Override
+        public Date currentDate() {
+            return new Date();
+        }
+
+        @Override
+        public long currentTimeMillis() {
+            return System.currentTimeMillis();
+        }
+
+        @Override
+        public long nanoTime() {
+            return THREAD_MX_BEAN.getCurrentThreadCpuTime();
         }
     }
 

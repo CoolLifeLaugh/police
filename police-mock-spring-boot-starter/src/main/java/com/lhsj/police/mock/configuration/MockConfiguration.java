@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
 
+import static java.util.Optional.ofNullable;
+
 @Configuration
 @EnableConfigurationProperties(MockProperties.class)
 public class MockConfiguration {
@@ -20,7 +22,7 @@ public class MockConfiguration {
     @ConditionalOnProperty(name = "police.mock.enable", havingValue = "true")
     public MockAnnotationAdvisor mockAnnotationAdvisor() {
         MockAnnotationAdvisor advisor = new MockAnnotationAdvisor(new MockAnnotationInterceptor(properties));
-        advisor.setOrder(properties.getOrder());
+        ofNullable(properties).map(MockProperties::getOrder).ifPresent(advisor::setOrder);
         return advisor;
     }
 

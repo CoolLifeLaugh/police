@@ -12,6 +12,7 @@ import java.util.function.Predicate;
 
 import static com.lhsj.police.core.base.ReExceptions.unchecked;
 import static com.lhsj.police.core.base.Validate.isTrue;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * 简单重试工具
@@ -123,6 +124,6 @@ public final class Retrys {
             logger.debug("Failed on try {}, retrying in {}ms.", nTry, sleepMillis);
         }
 
-        LockSupport.parkNanos(sleepMillis * 1_000_000L);
+        LockSupport.parkNanos(MILLISECONDS.toNanos(sleepMillis));
     }
 }
