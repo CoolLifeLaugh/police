@@ -39,12 +39,13 @@ public class WorkContext {
 
     private Map<String, Object> context = new ConcurrentHashMap<>();
 
-    public void put(String key, Object value) {
+    public <T> void put(String key, T value) {
         context.put(key, value);
     }
 
-    public Object get(String key) {
-        return context.get(key);
+    @SuppressWarnings("unchecked")
+    public <T> T get(String key) {
+        return (T) context.get(key);
     }
 
     public Set<Map.Entry<String, Object>> getEntrySet() {

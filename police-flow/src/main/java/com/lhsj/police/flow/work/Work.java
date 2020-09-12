@@ -23,7 +23,7 @@
  */
 package com.lhsj.police.flow.work;
 
-import java.util.UUID;
+import com.lhsj.police.core.id.ReIds;
 
 /**
  * This interface represents a unit of work. Implementations of this interface must:
@@ -46,7 +46,7 @@ public interface Work {
      * @return name of the unit of work.
      */
     default String getName() {
-        return UUID.randomUUID().toString();
+        return ReIds.fastUUID().toString();
     }
 
     /**

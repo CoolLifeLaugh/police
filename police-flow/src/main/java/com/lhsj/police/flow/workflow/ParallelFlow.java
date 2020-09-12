@@ -23,6 +23,7 @@
  */
 package com.lhsj.police.flow.workflow;
 
+import com.lhsj.police.core.id.ReIds;
 import com.lhsj.police.flow.work.Work;
 import com.lhsj.police.flow.work.WorkContext;
 import com.lhsj.police.flow.work.WorkReport;
@@ -79,7 +80,7 @@ public class ParallelFlow extends AbstractWorkFlow {
         private ExecutorService executorService;
 
         private Builder(ExecutorService executorService) {
-            this.name = UUID.randomUUID().toString();
+            this.name = ReIds.fastUUID().toString();
             this.works = new ArrayList<>();
             this.executorService = executorService;
         }

@@ -23,7 +23,7 @@
  */
 package com.lhsj.police.flow.work;
 
-import java.util.UUID;
+import com.lhsj.police.core.id.ReIds;
 
 /**
  * No operation work.
@@ -34,7 +34,7 @@ public class NoOpWork implements Work {
 
     @Override
     public String getName() {
-        return UUID.randomUUID().toString();
+        return ReIds.fastUUID().toString();
     }
 
     @Override

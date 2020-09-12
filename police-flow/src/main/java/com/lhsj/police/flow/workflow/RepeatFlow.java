@@ -23,13 +23,12 @@
  */
 package com.lhsj.police.flow.workflow;
 
+import com.lhsj.police.core.id.ReIds;
 import com.lhsj.police.flow.work.NoOpWork;
 import com.lhsj.police.flow.work.Work;
 import com.lhsj.police.flow.work.WorkContext;
-import com.lhsj.police.flow.work.WorkReport;
 import com.lhsj.police.flow.work.WorkPredicate;
-
-import java.util.UUID;
+import com.lhsj.police.flow.work.WorkReport;
 
 /**
  * A repeat flow executes a work repeatedly until its report satisfies a given predicate.
@@ -60,12 +59,12 @@ public class RepeatFlow extends AbstractWorkFlow {
 
     public static class Builder {
 
-        private String              name;
+        private String        name;
         private Work          work;
         private WorkPredicate predicate;
 
         private Builder() {
-            this.name = UUID.randomUUID().toString();
+            this.name = ReIds.fastUUID().toString();
             this.work = new NoOpWork();
             this.predicate = WorkPredicate.ALWAYS_FALSE;
         }

@@ -10,8 +10,13 @@ import java.util.function.Supplier;
 import static com.lhsj.police.core.constant.Constants.CODE_ERROR;
 
 public class ReIds {
+
+    public static UUID UUID() {
+        return UUID.randomUUID();
+    }
+
     /*
-     * 返回使用ThreadLocalRandm的UUID，比默认的UUID性能更优
+     * 返回使用ThreadLocalRandom的UUID，比默认的UUID性能更优
      */
     public static UUID fastUUID() {
         ThreadLocalRandom random = ThreadLocalRandom.current();

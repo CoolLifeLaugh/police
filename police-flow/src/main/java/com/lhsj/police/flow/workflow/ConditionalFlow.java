@@ -23,13 +23,12 @@
  */
 package com.lhsj.police.flow.workflow;
 
+import com.lhsj.police.core.id.ReIds;
 import com.lhsj.police.flow.work.NoOpWork;
 import com.lhsj.police.flow.work.Work;
 import com.lhsj.police.flow.work.WorkContext;
-import com.lhsj.police.flow.work.WorkReport;
 import com.lhsj.police.flow.work.WorkPredicate;
-
-import java.util.UUID;
+import com.lhsj.police.flow.work.WorkReport;
 
 /**
  * A conditional flow is defined by 4 artifacts:
@@ -79,7 +78,7 @@ public class ConditionalFlow extends AbstractWorkFlow {
         private WorkPredicate predicate;
 
         private Builder() {
-            this.name = UUID.randomUUID().toString();
+            this.name = ReIds.fastUUID().toString();
             this.toExecute = new NoOpWork();
             this.nextOnPredicateSuccess = new NoOpWork();
             this.nextOnPredicateFailure = new NoOpWork();
