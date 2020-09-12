@@ -80,7 +80,7 @@ public class SequentialFlow extends AbstractWorkFlow {
             this.works = new ArrayList<>();
         }
 
-        public static SequentialFlow.Builder aNewSequentialFlow() {
+        public static SequentialFlow.Builder of() {
             return new SequentialFlow.Builder();
         }
 

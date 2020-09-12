@@ -6,8 +6,8 @@ import com.lhsj.police.flow.engine.WorkFlowEngineBuilder;
 import com.lhsj.police.flow.work.DefaultWorkReport;
 import com.lhsj.police.flow.work.Work;
 import com.lhsj.police.flow.work.WorkContext;
-import com.lhsj.police.flow.work.WorkReport;
 import com.lhsj.police.flow.work.WorkPredicate;
+import com.lhsj.police.flow.work.WorkReport;
 import com.lhsj.police.flow.work.WorkStatus;
 import com.lhsj.police.flow.workflow.ConditionalFlow;
 import com.lhsj.police.flow.workflow.ParallelFlow;
@@ -29,9 +29,9 @@ public class SimpleApp {
         PrintMessageWork work5 = new PrintMessageWork("work5 nok");
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-        WorkFlow workflow = SequentialFlow.Builder.aNewSequentialFlow() // flow 4
+        WorkFlow workflow = SequentialFlow.Builder.of() // flow 4
                 .execute(
-                        RepeatFlow.Builder.aNewRepeatFlow() // flow 1
+                        RepeatFlow.Builder.of() // flow 1
                                 .named("print foo 3 times")
                                 .repeat(work1)
                                 .times(3)

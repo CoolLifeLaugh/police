@@ -70,7 +70,7 @@ public class RepeatFlow extends AbstractWorkFlow {
             this.predicate = WorkPredicate.ALWAYS_FALSE;
         }
 
-        public static RepeatFlow.Builder aNewRepeatFlow() {
+        public static RepeatFlow.Builder of() {
             return new RepeatFlow.Builder();
         }
 
