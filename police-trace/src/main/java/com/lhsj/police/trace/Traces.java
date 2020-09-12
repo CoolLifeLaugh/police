@@ -202,8 +202,22 @@ public final class Traces {
         ofNullable(getLocalTraceLog()).ifPresent(e -> e.desc(value));
     }
 
+    public static void desc(Throwable ex) {
+        ofNullable(getLocalTraceLog()).ifPresent(e -> {
+            e.fail();
+            e.desc(ex);
+        });
+    }
+
     public static void desc(TraceLog trace, String value) {
         ofNullable(trace).ifPresent(e -> e.desc(value));
+    }
+
+    public static void desc(TraceLog trace, Throwable ex) {
+        ofNullable(trace).ifPresent(e -> {
+            e.fail();
+            e.desc(ex);
+        });
     }
 
     public static void desc(String format, Object... argArray) {
