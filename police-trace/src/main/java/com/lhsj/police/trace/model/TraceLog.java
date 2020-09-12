@@ -2,6 +2,7 @@ package com.lhsj.police.trace.model;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.lhsj.police.core.base.ReExceptions;
 import com.lhsj.police.core.exception.AbstractCodeException;
 import com.lhsj.police.core.text.ReStrings;
 import com.lhsj.police.trace.global.TraceGlobal;
@@ -31,8 +32,8 @@ import static org.apache.commons.lang3.StringUtils.replaceChars;
 public class TraceLog implements Serializable {
 
     private final static String REPLACE_FROM = "\n|", REPLACE_TO = "n_n";
-    private final static String RESULT_SUCCESS  = "success";
-    private final static String RESULT_FAIL     = "fail";
+    public final static  String RESULT_SUCCESS  = "success";
+    public final static  String RESULT_FAIL     = "fail";
     private final static String BIG_SEPARATOR   = "|";
     private final static String SMALL_SEPARATOR = ",";
 
@@ -183,6 +184,13 @@ public class TraceLog implements Serializable {
         return this;
     }
 
+    public TraceLog successIfNull() {
+        if (isNull(result)) {
+            this.result = RESULT_SUCCESS;
+        }
+        return this;
+    }
+
     public TraceLog success(Boolean success) {
         if (ofNullable(success).orElse(false)) {
             success();
@@ -194,6 +202,13 @@ public class TraceLog implements Serializable {
 
     public TraceLog fail() {
         this.result = RESULT_FAIL;
+        return this;
+    }
+
+    public TraceLog failIfNull() {
+        if (isNull(result)) {
+            this.result = RESULT_FAIL;
+        }
         return this;
     }
 
@@ -335,10 +350,13 @@ public class TraceLog implements Serializable {
         if (ex instanceof AbstractCodeException) {
             AbstractCodeException cex = (AbstractCodeException) ex;
             return ReStrings.format("{}, code = {}, message = {}",
-                    ex.getClass().getName(), cex.getCode(), ex.getMessage());
+                    ex.getClass().getName(),
+                    cex.getCode(),
+                    ReExceptions.simpleTraceText(cex, 16));
         } else {
             return ReStrings.format("{}, message = {}",
-                    ex.getClass().getName(), ex.getMessage());
+                    ex.getClass().getName(),
+                    ReExceptions.simpleTraceText(ex, 16));
         }
     };
 

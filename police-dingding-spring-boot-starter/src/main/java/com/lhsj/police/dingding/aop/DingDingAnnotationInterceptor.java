@@ -19,6 +19,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.NonNull;
 
 import java.io.PrintWriter;
@@ -57,7 +58,7 @@ public class DingDingAnnotationInterceptor extends AbstractName implements Metho
     private void sendDingDingIfNeeded(MethodInvocation invocation, Throwable ex) {
         Optional.of(invocation)
                 .map(MethodInvocation::getMethod)
-                .map(t -> t.getAnnotation(DingDing.class))
+                .map(t -> AnnotationUtils.findAnnotation(t, DingDing.class))
                 .filter(t -> sendForIfNeeded(t, ex))
                 .map(t -> ImmutablePair.of(t, createRequest(ex, t)))
                 .map(t -> ImmutablePair.of(parseWebhook(t.left), t.right))

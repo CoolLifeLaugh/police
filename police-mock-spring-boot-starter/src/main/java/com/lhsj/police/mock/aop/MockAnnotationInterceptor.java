@@ -14,6 +14,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.context.expression.AnnotatedElementKey;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.lang.NonNull;
 
@@ -57,7 +58,7 @@ public class MockAnnotationInterceptor implements MethodInterceptor, BeanFactory
                 return null;
             }
 
-            Mock annotation = method.getAnnotation(Mock.class);
+            Mock annotation = AnnotationUtils.findAnnotation(method, Mock.class);
             if (isNull(annotation)) {
                 return invocation.proceed();
             }

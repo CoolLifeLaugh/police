@@ -82,8 +82,24 @@ public final class Traces {
         ofNullable(getLocalTraceLog()).ifPresent(e -> e.result(value));
     }
 
+    public static void resultSuccess() {
+        ofNullable(getLocalTraceLog()).ifPresent(e -> e.result(TraceLog.RESULT_SUCCESS));
+    }
+
+    public static void resultFail() {
+        ofNullable(getLocalTraceLog()).ifPresent(e -> e.result(TraceLog.RESULT_FAIL));
+    }
+
     public static void result(TraceLog trace, String value) {
         ofNullable(trace).ifPresent(e -> e.result(value));
+    }
+
+    public static void resultSuccess(TraceLog trace) {
+        ofNullable(trace).ifPresent(e -> e.result(TraceLog.RESULT_SUCCESS));
+    }
+
+    public static void resultFail(TraceLog trace) {
+        ofNullable(trace).ifPresent(e -> e.result(TraceLog.RESULT_FAIL));
     }
 
     public static void gmtStart(Date value) {

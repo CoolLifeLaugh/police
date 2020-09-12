@@ -16,6 +16,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.context.expression.AnnotatedElementKey;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.lang.NonNull;
 
@@ -44,7 +45,7 @@ public abstract class AbstractLimiterInterceptor implements MethodInterceptor, B
             return invocation.proceed();
         }
 
-        Throttle annotation = method.getAnnotation(Throttle.class);
+        Throttle annotation = AnnotationUtils.findAnnotation(invocation.getMethod(), Throttle.class);
         if (isNull(annotation)) {
             return invocation.proceed();
         }

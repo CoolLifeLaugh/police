@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.NonNull;
 
 import java.util.Map;
@@ -36,7 +37,7 @@ public class ExceptionResolverAnnotationInterceptor extends AbstractName impleme
         try {
             return invocation.proceed();
         } catch (Throwable ex) {
-            ExceptionResolver annotation = invocation.getMethod().getAnnotation(ExceptionResolver.class);
+            ExceptionResolver annotation = AnnotationUtils.findAnnotation(invocation.getMethod(), ExceptionResolver.class);
 
             if (!needResolve(annotation, ex)) {
                 throw ex;

@@ -7,10 +7,13 @@ import com.lhsj.police.dislock.redis.result.LockResult;
 import com.lhsj.police.expression.CacheOperationExpressionEvaluator;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.context.expression.AnnotatedElementKey;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.integration.redis.util.RedisLockRegistry;
 import org.springframework.lang.NonNull;
@@ -27,6 +30,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class DislockRedisAnnotationInterceptor extends AbstractName implements MethodInterceptor, BeanFactoryAware {
 
+    private static Logger logger = LoggerFactory.getLogger(DislockRedisAnnotationInterceptor.class);
+
     private BeanFactory                       beanFactory;
     private RedisLockRegistry                 redisLockRegistry;
     private CacheOperationExpressionEvaluator evaluator = new CacheOperationExpressionEvaluator();
@@ -40,7 +45,8 @@ public class DislockRedisAnnotationInterceptor extends AbstractName implements M
         Lock lock = null;
         LockResult result = null;
         try {
-            Dislock dislock = invocation.getMethod().getAnnotation(Dislock.class);
+            Dislock dislock = AnnotationUtils.findAnnotation(invocation.getMethod(), Dislock.class);
+            isTrue(nonNull(dislock), "Dislock annotation null");
 
             // 解析加锁的key
             String lockKey = createKey(invocation, dislock);
@@ -55,6 +61,9 @@ public class DislockRedisAnnotationInterceptor extends AbstractName implements M
             isTrue(result.getSuccess(), "lock fail, lockKey is " + lockKey);
 
             return invocation.proceed();
+        } catch (Throwable ex) {
+            logger.warn(getClass().getName(), ex);
+            throw ex;
         } finally {
             // 释放锁
             unlockIfNeeded(lock, result);

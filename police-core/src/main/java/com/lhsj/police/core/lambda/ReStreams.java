@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.lhsj.police.core.collection.ReLists.emptyList;
+import static java.util.Objects.isNull;
 import static java.util.function.Function.identity;
 
 /**
@@ -52,4 +54,10 @@ public final class ReStreams {
         return Collectors.toMap(keyMapper, identity(), leftOperator());
     }
 
+    public static BiFunction<Map<String, Integer>, String, Map<String, Integer>> countAccumulator =
+            (m, e) -> {
+                Integer count = m.get(e);
+                m.put(e, isNull(count) ? 1 : count + 1);
+                return m;
+            };
 }

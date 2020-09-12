@@ -1,6 +1,8 @@
 package com.lhsj.police.responses.interceptor;
 
 import com.lhsj.police.responses.annotation.Responses;
+import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -20,7 +22,8 @@ public class ResponsesAnnotationHandlerInterceptor extends HandlerInterceptorAda
                 .filter(e -> handler instanceof HandlerMethod)
                 .map(e -> (HandlerMethod) handler)
                 .map(HandlerMethod::getReturnType)
-                .map(e -> e.getMethodAnnotation(Responses.class))
+                .map(MethodParameter::getMethod)
+                .map(e -> AnnotationUtils.findAnnotation(e, Responses.class))
                 .ifPresent(localResponses::set);
 
         return true;

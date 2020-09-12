@@ -1,6 +1,5 @@
 package com.lhsj.police.trace.aop;
 
-import com.alibaba.fastjson.JSON;
 import com.lhsj.police.core.id.ReIds;
 import com.lhsj.police.core.naming.AbstractName;
 import com.lhsj.police.core.trace.TraceFactory;
@@ -16,6 +15,8 @@ import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 
+import static com.lhsj.police.core.json.ReJsons.obj2String;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -40,6 +41,9 @@ public class TraceAnnotationInterceptor extends AbstractName implements MethodIn
             Traces.setLocalTraceLog(log);
 
             Trace trace = invocation.getMethod().getAnnotation(Trace.class);
+            if (isNull(trace)) {
+                return invocation.proceed();
+            }
 
             // log type & traceId
             log.type(getType(invocation, trace))
@@ -48,7 +52,7 @@ public class TraceAnnotationInterceptor extends AbstractName implements MethodIn
             // log request
             Object[] request = invocation.getArguments();
             Optional.of(trace).map(Trace::request).filter(e -> e)
-                    .ifPresent(e -> log.request(JSON.toJSONString(request)));
+                    .ifPresent(e -> log.request(obj2String(request)));
 
             // if separate = true, log
             Optional.of(trace).map(Trace::separate).filter(e -> e)
@@ -57,9 +61,9 @@ public class TraceAnnotationInterceptor extends AbstractName implements MethodIn
             // log response
             Object response = invocation.proceed();
             Optional.of(trace).map(Trace::response).filter(e -> e)
-                    .ifPresent(e -> log.response(JSON.toJSONString(response)));
+                    .ifPresent(e -> log.response(obj2String(response)));
 
-            log.success();
+            log.successIfNull();
             return response;
         } catch (Throwable ex) {
             log.fail().desc(ex);
