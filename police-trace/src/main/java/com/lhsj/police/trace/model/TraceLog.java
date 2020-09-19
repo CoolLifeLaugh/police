@@ -14,9 +14,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.lhsj.police.core.constant.Constants.EMPTY;
 import static com.lhsj.police.core.time.ReClocks.currentDate;
 import static com.lhsj.police.core.time.ReDateFormats.formatDateTimeMillis;
+import static com.lhsj.police.trace.global.TraceGlobal.RESULT_FAIL;
+import static com.lhsj.police.trace.global.TraceGlobal.RESULT_SUCCESS;
 import static com.lhsj.police.trace.global.TraceGlobal.bingoPredicate;
 import static java.lang.System.currentTimeMillis;
 import static java.util.Objects.isNull;
@@ -32,34 +35,83 @@ import static org.apache.commons.lang3.StringUtils.replaceChars;
 public class TraceLog implements Serializable {
 
     private final static String REPLACE_FROM = "\n|", REPLACE_TO = "n_n";
-    public final static  String RESULT_SUCCESS  = "success";
-    public final static  String RESULT_FAIL     = "fail";
-    private final static String BIG_SEPARATOR   = "|";
-    private final static String SMALL_SEPARATOR = ",";
+    private final static String       BIG_SEPARATOR       = "|";
+    private final static String       SMALL_SEPARATOR     = ",";
+    private final static List<String> BLANK_GROUPS        = newArrayList(EMPTY, EMPTY, EMPTY);
+    private final static String       BLANK_GROUPS_FORMAT = Joiner.on(BIG_SEPARATOR).useForNull(EMPTY).join(BLANK_GROUPS);
 
-    public static String app;
-    public static String ip;
-
-    private String       traceId;
-    private String       type;
-    private String       result;
-    private Date         gmtStart  = currentDate();
-    private Date         gmtEnd;
-    private Long         costStart = currentTimeMillis();
-    private Long         costEnd;
-    private Long         cost;
-    private String       request;
-    private String       response;
-    private List<String> keys;
-    private String       thread;
-    private String       desc;
+    /**
+     * 应用名
+     */
+    public static String       app;
+    /**
+     * 本机IP地址
+     */
+    public static String       ip;
+    /**
+     * 跟踪ID
+     */
+    private       String       traceId;
+    /**
+     * 日志类型 (最好有值)
+     */
+    private       String       type;
+    /**
+     * 返回值编码 {@link TraceGlobal RESULT_SUCCESS, RESULT_FAIL}
+     */
+    private       String       result;
+    /**
+     * 开始时间
+     */
+    private       Date         gmtStart  = currentDate();
+    /**
+     * 结束时间
+     */
+    private       Date         gmtEnd;
+    /**
+     * 开始时间戳
+     */
+    private       Long         costStart = currentTimeMillis();
+    /**
+     * 结束时间戳
+     */
+    private       Long         costEnd;
+    /**
+     * 耗时
+     */
+    private       Long         cost;
+    /**
+     * 请求参数
+     */
+    private       String       request;
+    /**
+     * 响应参数
+     */
+    private       String       response;
+    /**
+     * 关键字
+     */
+    private       List<String> keys;
+    /**
+     * 当前线程名
+     */
+    private       String       thread;
+    /**
+     * 描述字段，可以写入任意字符串
+     */
+    private       String       desc;
+    /**
+     * 统计用的扩展属性，API上默认支持3个，每一个group，都会新增一个新的分隔符
+     */
+    private       List<String> groups;
 
     public void log() {
         ofNullable(TraceGlobal.logger).ifPresent(e -> e.info(format()));
     }
 
     public String format() {
-        return Joiner.on(BIG_SEPARATOR).useForNull(EMPTY)
+        return Joiner.on(BIG_SEPARATOR)
+                .useForNull(EMPTY)
                 .join(
                         formatApp()
                         , formatIp()
@@ -74,6 +126,7 @@ public class TraceLog implements Serializable {
                         , formatKeys()
                         , formatThread()
                         , formatDesc()
+                        , formatGroups()
                 );
     }
 
@@ -120,12 +173,12 @@ public class TraceLog implements Serializable {
 
         return ofNullable(costStart)
                 .map(e -> currentTimeMillis() - e)
-                .orElse(null);
+                .orElse(0L);
     }
 
     private String formatKeys() {
         if (isEmpty(keys)) {
-            return null;
+            return EMPTY;
         }
         return Joiner.on(SMALL_SEPARATOR).useForNull(EMPTY).join(keys);
     }
@@ -146,6 +199,18 @@ public class TraceLog implements Serializable {
 
     private String formatDesc() {
         return isBingo(bingoPredicate) ? "__bingo__," + this.desc : this.desc;
+    }
+
+    private String formatGroups() {
+        if (isEmpty(groups)) {
+            return Joiner.on(BIG_SEPARATOR)
+                    .useForNull(EMPTY)
+                    .join(BLANK_GROUPS);
+        }
+
+        return Joiner.on(BIG_SEPARATOR)
+                .useForNull(EMPTY)
+                .join(groups);
     }
 
     // ---------------- flow api ----------------
@@ -360,6 +425,45 @@ public class TraceLog implements Serializable {
         }
     };
 
+    public TraceLog group1(String group) {
+        if (isBlank(group)) {
+            return this;
+        }
+
+        if (isEmpty(groups)) {
+            groups = BLANK_GROUPS;
+        }
+
+        groups.set(0, group);
+        return this;
+    }
+
+    public TraceLog group2(String group) {
+        if (isBlank(group)) {
+            return this;
+        }
+
+        if (isEmpty(groups)) {
+            groups = BLANK_GROUPS;
+        }
+
+        groups.set(1, group);
+        return this;
+    }
+
+    public TraceLog group3(String group) {
+        if (isBlank(group)) {
+            return this;
+        }
+
+        if (isEmpty(groups)) {
+            groups = BLANK_GROUPS;
+        }
+
+        groups.set(2, group);
+        return this;
+    }
+
     // ---------------- getter ----------------
 
 
@@ -421,5 +525,9 @@ public class TraceLog implements Serializable {
 
     public String getDesc() {
         return desc;
+    }
+
+    public List<String> getGroups() {
+        return groups;
     }
 }

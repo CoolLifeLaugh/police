@@ -1,6 +1,8 @@
 package com.lhsj.police.trace;
 
+import com.lhsj.police.core.concurrent.NamedThreadLocal;
 import com.lhsj.police.core.text.ReStrings;
+import com.lhsj.police.trace.global.TraceGlobal;
 import com.lhsj.police.trace.model.TraceLog;
 
 import java.util.Date;
@@ -16,9 +18,9 @@ public final class Traces {
 
     // ------------- thread local ---------------
 
-    private final static ThreadLocal<TraceLog> localTraceLog = new ThreadLocal<>();
+    private final static ThreadLocal<TraceLog> localTraceLog = new NamedThreadLocal<>("localTraceLog");
 
-    private final static ThreadLocal<String> localTraceId = new ThreadLocal<>();
+    private final static ThreadLocal<String> localTraceId = new NamedThreadLocal<>("localTraceId");
 
     public static TraceLog getLocalTraceLog() {
         return localTraceLog.get();
@@ -83,11 +85,11 @@ public final class Traces {
     }
 
     public static void resultSuccess() {
-        ofNullable(getLocalTraceLog()).ifPresent(e -> e.result(TraceLog.RESULT_SUCCESS));
+        ofNullable(getLocalTraceLog()).ifPresent(e -> e.result(TraceGlobal.RESULT_SUCCESS));
     }
 
     public static void resultFail() {
-        ofNullable(getLocalTraceLog()).ifPresent(e -> e.result(TraceLog.RESULT_FAIL));
+        ofNullable(getLocalTraceLog()).ifPresent(e -> e.result(TraceGlobal.RESULT_FAIL));
     }
 
     public static void result(TraceLog trace, String value) {
@@ -95,11 +97,11 @@ public final class Traces {
     }
 
     public static void resultSuccess(TraceLog trace) {
-        ofNullable(trace).ifPresent(e -> e.result(TraceLog.RESULT_SUCCESS));
+        ofNullable(trace).ifPresent(e -> e.result(TraceGlobal.RESULT_SUCCESS));
     }
 
     public static void resultFail(TraceLog trace) {
-        ofNullable(trace).ifPresent(e -> e.result(TraceLog.RESULT_FAIL));
+        ofNullable(trace).ifPresent(e -> e.result(TraceGlobal.RESULT_FAIL));
     }
 
     public static void gmtStart(Date value) {
@@ -226,5 +228,29 @@ public final class Traces {
 
     public static void desc(TraceLog trace, String format, Object... argArray) {
         ofNullable(trace).ifPresent(e -> trace.desc(ReStrings.format(format, argArray)));
+    }
+
+    public static void group1(TraceLog trace, String group) {
+        ofNullable(trace).ifPresent(e -> e.group1(group));
+    }
+
+    public static void group1(String group) {
+        ofNullable(getLocalTraceLog()).ifPresent(e -> e.group1(group));
+    }
+
+    public static void group2(TraceLog trace, String group) {
+        ofNullable(trace).ifPresent(e -> e.group2(group));
+    }
+
+    public static void group2(String group) {
+        ofNullable(getLocalTraceLog()).ifPresent(e -> e.group2(group));
+    }
+
+    public static void group3(TraceLog trace, String group) {
+        ofNullable(trace).ifPresent(e -> e.group3(group));
+    }
+
+    public static void group3(String group) {
+        ofNullable(getLocalTraceLog()).ifPresent(e -> e.group3(group));
     }
 }

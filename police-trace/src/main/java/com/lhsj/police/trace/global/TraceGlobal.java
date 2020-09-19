@@ -14,6 +14,9 @@ public final class TraceGlobal {
     public static final String loggerName = "tracelogger";
     public static       Logger logger;
 
+    public final static String RESULT_SUCCESS = "success";
+    public final static String RESULT_FAIL    = "fail";
+
     static {
         logger = TraceLoggerFactory.getLogger(loggerName);
     }
