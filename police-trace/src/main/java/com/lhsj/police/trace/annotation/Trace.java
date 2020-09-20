@@ -7,6 +7,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * TraceLog注解
+ * <p>
+ * 注意：如果目标类被RPC框架修饰，例如Dubbo，建议将注解，标注在接口方法上，否则
+ * AnnotationUtils.findAnnotation(invocation.getMethod(), Trace.class)方法，无法获取到注解。
+ */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited

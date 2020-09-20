@@ -35,6 +35,16 @@ public class ReAopProxys {
         return null;
     }
 
+    public static Object getSilentTarget(Object proxy) {
+        try {
+            return getTarget(proxy);
+        } catch (Throwable e) {
+            // ignore
+        }
+
+        return null;
+    }
+
     public static Object getCglibProxyTargetObject(Object proxy) throws Exception {
         Object dynamicAdvisedInterceptor = getCglibTarget(proxy);
 

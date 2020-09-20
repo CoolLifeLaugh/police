@@ -1,5 +1,6 @@
 package com.lhsj.police.trace.aop;
 
+import com.lhsj.police.aspect.invocation.ReInvocations;
 import com.lhsj.police.core.id.ReIds;
 import com.lhsj.police.core.naming.AbstractName;
 import com.lhsj.police.core.trace.TraceFactory;
@@ -11,8 +12,10 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.NonNull;
 
+import java.lang.reflect.Method;
 import java.util.Optional;
 
 import static com.lhsj.police.core.json.ReJsons.obj2String;
@@ -40,8 +43,9 @@ public class TraceAnnotationInterceptor extends AbstractName implements MethodIn
         try {
             Traces.setLocalTraceLog(log);
 
-            Trace trace = invocation.getMethod().getAnnotation(Trace.class);
+            Trace trace = AnnotationUtils.findAnnotation(invocation.getMethod(), Trace.class);
             if (isNull(trace)) {
+                log.key("[annotation not find]");
                 return invocation.proceed();
             }
 
@@ -128,7 +132,11 @@ public class TraceAnnotationInterceptor extends AbstractName implements MethodIn
     }
 
     private static String getFullMethodName(MethodInvocation invocation) {
-        return invocation.getMethod().getDeclaringClass().getSimpleName() + "_" + invocation.getMethod().getName();
+        Method method = ofNullable(invocation).map(ReInvocations::getTargetMethod).orElse(null);
+
+        return ofNullable(method).map(Method::getDeclaringClass).map(Class::getSimpleName).orElse("")
+                + "_"
+                + ofNullable(method).map(Method::getName).orElse("");
     }
 
     @Override
