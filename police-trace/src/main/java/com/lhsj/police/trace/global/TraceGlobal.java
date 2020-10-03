@@ -1,7 +1,9 @@
 package com.lhsj.police.trace.global;
 
+import com.lhsj.police.core.concurrent.NamedThreadLocal;
 import com.lhsj.police.core.net.ReNets;
 import com.lhsj.police.trace.logger.TraceLoggerFactory;
+import com.lhsj.police.trace.model.TraceLog;
 import org.slf4j.Logger;
 
 import java.util.function.Predicate;
@@ -27,4 +29,8 @@ public final class TraceGlobal {
      * traceId是否命中采样，场景是，有的trace应用，对日志有采样率的限制
      */
     public static Predicate<String> bingoPredicate;
+
+    public final static ThreadLocal<TraceLog> localTraceLog = new NamedThreadLocal<>("localTraceLog");
+    public final static ThreadLocal<String>   localTraceId  = new NamedThreadLocal<>("localTraceId");
+
 }
