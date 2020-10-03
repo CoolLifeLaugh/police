@@ -1,5 +1,6 @@
 package com.lhsj.police.trace;
 
+import com.lhsj.police.core.concurrent.NamedThreadLocal;
 import com.lhsj.police.core.text.ReStrings;
 import com.lhsj.police.trace.global.TraceGlobal;
 import com.lhsj.police.trace.model.TraceLog;
@@ -17,28 +18,31 @@ public final class Traces {
 
     // ------------- thread local ---------------
 
+    public final static ThreadLocal<TraceLog> localTraceLog = new NamedThreadLocal<>("localTraceLog");
+    public final static ThreadLocal<String>   localTraceId  = new NamedThreadLocal<>("localTraceId");
+
     public static TraceLog getLocalTraceLog() {
-        return TraceGlobal.localTraceLog.get();
+        return localTraceLog.get();
     }
 
     public static void setLocalTraceLog(TraceLog traceLog) {
-        TraceGlobal.localTraceLog.set(traceLog);
+        localTraceLog.set(traceLog);
     }
 
     public static void removeLocalTraceLog() {
-        TraceGlobal.localTraceLog.remove();
+        localTraceLog.remove();
     }
 
     public static String getLocalTraceId() {
-        return TraceGlobal.localTraceId.get();
+        return localTraceId.get();
     }
 
     public static void setLocalTraceId(String traceId) {
-        TraceGlobal.localTraceId.set(traceId);
+        localTraceId.set(traceId);
     }
 
     public static void removeLocalTraceId() {
-        TraceGlobal.localTraceId.remove();
+        localTraceId.remove();
     }
 
     // ------------- tools ---------------

@@ -1,6 +1,7 @@
 package com.lhsj.police.trace.command;
 
 import com.lhsj.police.core.text.ReStrings;
+import com.lhsj.police.trace.Traces;
 import com.lhsj.police.trace.global.TraceGlobal;
 import com.lhsj.police.trace.model.TraceLog;
 
@@ -30,7 +31,7 @@ public class TraceCommand {
 
     public static TraceCommand of() {
         TraceCommand command = new TraceCommand();
-        command.setLog(TraceGlobal.localTraceLog.get());
+        command.setLog(Traces.getLocalTraceLog());
         return command;
     }
 
