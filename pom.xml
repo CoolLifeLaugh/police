@@ -39,6 +39,7 @@
         <module>police-web</module>
         <module>police-flow</module>
         <module>police-expression</module>
+        <module>police-chain</module>
         <module>police-application-context-spring-boot-starter</module>
         <module>police-application-context-spring-boot-starter-test</module>
         <module>police-dingding</module>
@@ -102,6 +103,11 @@
             <dependency>
                 <groupId>com.lhsj</groupId>
                 <artifactId>police-expression</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lhsj</groupId>
+                <artifactId>police-chain</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
