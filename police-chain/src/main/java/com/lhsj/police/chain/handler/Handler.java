@@ -6,6 +6,13 @@ package com.lhsj.police.chain.handler;
 public interface Handler<Context> {
 
     /**
+     * 是否需要执行
+     */
+    default boolean supports(Context context) {
+        return true;
+    }
+
+    /**
      * 前置处理
      */
     default void preHandle(Context context) {

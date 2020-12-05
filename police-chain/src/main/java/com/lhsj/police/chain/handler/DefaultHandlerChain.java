@@ -33,6 +33,10 @@ public class DefaultHandlerChain<Context extends ChainContext> implements Handle
         }
 
         for (Handler<Context> handler : chain) {
+            if (!handler.supports(context)) {
+                continue;
+            }
+
             if (context.getDone() && !handler.ignoreDone(context)) {
                 break;
             }
