@@ -8,6 +8,7 @@ import com.google.common.primitives.Longs;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -143,4 +144,11 @@ public class ReArrays {
         return Doubles.asList(backingArray);
     }
 
+    public static <T> boolean isEmpty(T[] array) {
+        return Objects.isNull(array) || array.length <= 0;
+    }
+
+    public static <T> boolean isNotEmpty(T[] array) {
+        return !isEmpty(array);
+    }
 }
